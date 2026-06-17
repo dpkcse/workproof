@@ -1,0 +1,7 @@
+/*
+ * WorkProof application styles.
+ *
+ * The current Blade templates use Tailwind utility classes directly. This file is
+ * the CSS entry point for the project-level build so additional application
+ * styles can be bundled without relying on CDN-only tooling.
+ */

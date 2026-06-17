@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "echo \"No frontend build is configured for this Laravel application.\"",
-    "dev": "echo \"No frontend dev server is configured for this Laravel application.\""
+    "build": "node scripts/build-assets.mjs",
+    "dev": "node scripts/build-assets.mjs --watch"
   },
   "dependencies": {},
   "devDependencies": {}
