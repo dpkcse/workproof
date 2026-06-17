@@ -1,0 +1,1 @@
+<!doctype html><html><head><meta charset="utf-8"><script src="https://cdn.tailwindcss.com"></script><title>Small Business</title></head><body><main class="mx-auto max-w-4xl p-8"><h1 class="text-4xl font-bold">For small businesses</h1><p class="mt-4">Bring lightweight accountability to service, support, and operations teams.</p></main></body></html>

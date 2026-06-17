@@ -1,0 +1,3 @@
+<?php
+namespace Database\Seeders;use Illuminate\Database\Seeder;
+class PlatformRolePermissionSeeder extends Seeder{public function run():void{if(!class_exists(\Spatie\Permission\Models\Permission::class)){return;}$perms=['platform.workspaces.view','platform.workspaces.manage','platform.workspaces.suspend','platform.workspaces.reactivate','platform.workspaces.impersonate','platform.plans.manage','platform.billing.view','platform.support.manage'];foreach($perms as $p)\Spatie\Permission\Models\Permission::findOrCreate($p,'web');$role=\Spatie\Permission\Models\Role::findOrCreate('platform_admin','web');$role->syncPermissions($perms);}}

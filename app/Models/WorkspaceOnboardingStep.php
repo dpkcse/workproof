@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use App\Models\Concerns\BelongsToWorkspace;use Illuminate\Database\Eloquent\Model;class WorkspaceOnboardingStep extends Model{use BelongsToWorkspace;protected $fillable=['workspace_id','step_key','is_completed','completed_at','completed_by'];protected function casts():array{return ['is_completed'=>'boolean','completed_at'=>'datetime'];}public function completedBy(){return $this->belongsTo(User::class,'completed_by');}}

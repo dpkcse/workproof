@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration;use Illuminate\Database\Schema\Blueprint;use Illuminate\Support\Facades\Schema;
+return new class extends Migration{public function up():void{Schema::table('users',function(Blueprint $table){if(!Schema::hasColumn('users','phone'))$table->string('phone')->nullable()->after('email');if(!Schema::hasColumn('users','status'))$table->string('status')->default('active')->after('password');if(!Schema::hasColumn('users','is_platform_user'))$table->boolean('is_platform_user')->default(false)->after('status');if(!Schema::hasColumn('users','default_timezone'))$table->string('default_timezone')->nullable()->after('is_platform_user');});}public function down():void{}};
