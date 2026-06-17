@@ -1,0 +1,12 @@
+{
+  "name": "workproof",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "echo \"No frontend build is configured for this Laravel application.\"",
+    "dev": "echo \"No frontend dev server is configured for this Laravel application.\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
