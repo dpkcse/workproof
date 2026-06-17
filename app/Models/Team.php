@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use App\Models\Concerns\BelongsToWorkspace;use Illuminate\Database\Eloquent\Model;class Team extends Model{use BelongsToWorkspace;protected $fillable=['workspace_id','department_id','name','team_lead_id','is_active'];protected function casts():array{return ['is_active'=>'boolean'];}public function department(){return $this->belongsTo(Department::class);}public function lead(){return $this->belongsTo(User::class,'team_lead_id');}}

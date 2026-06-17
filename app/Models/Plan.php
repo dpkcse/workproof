@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use Illuminate\Database\Eloquent\Model;class Plan extends Model{protected $fillable=['name','slug','monthly_price','yearly_price','currency','user_limit','project_limit','storage_limit_mb','ai_monthly_quota','is_public','is_active'];protected function casts():array{return ['monthly_price'=>'decimal:2','yearly_price'=>'decimal:2','is_public'=>'boolean','is_active'=>'boolean'];}public function features(){return $this->hasMany(PlanFeature::class);}}
