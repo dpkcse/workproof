@@ -1,0 +1,12 @@
+{
+  "name": "workproof",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-assets.mjs",
+    "dev": "node scripts/build-assets.mjs --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
