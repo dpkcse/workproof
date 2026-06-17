@@ -3,7 +3,7 @@
 use App\Http\Controllers\Public\PricingController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'public.home')->name('home');
+Route::view('/', 'welcome')->name('home');
 Route::view('/features', 'public.features')->name('features');
 Route::get('/pricing', PricingController::class)->name('pricing');
 Route::view('/use-cases/agencies', 'public.use-cases.agencies')->name('use-cases.agencies');
