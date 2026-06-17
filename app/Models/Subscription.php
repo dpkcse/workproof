@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use App\Models\Concerns\BelongsToWorkspace;use Illuminate\Database\Eloquent\Model;class Subscription extends Model{use BelongsToWorkspace;protected $fillable=['workspace_id','plan_id','status','trial_ends_at','current_period_start','current_period_end','billing_cycle'];protected function casts():array{return ['trial_ends_at'=>'date','current_period_start'=>'date','current_period_end'=>'date'];}public function plan(){return $this->belongsTo(Plan::class);}}

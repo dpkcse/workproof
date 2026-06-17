@@ -1,0 +1,1 @@
+<!doctype html><html><head><meta charset="utf-8"><script src="https://cdn.tailwindcss.com"></script><title>Contact</title></head><body><main class="mx-auto max-w-4xl p-8"><h1 class="text-4xl font-bold">Contact sales</h1><p class="mt-4">Talk to NAXAS about SaaS, private cloud, and enterprise/on-premise deployments.</p></main></body></html>

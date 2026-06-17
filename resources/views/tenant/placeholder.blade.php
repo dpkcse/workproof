@@ -1,0 +1,1 @@
+<x-layouts.app title="{{ $title ?? 'Workspace Area' }}"><h1 class="text-3xl font-bold">{{ $title ?? 'Workspace Area' }}</h1><p class="mt-4 text-slate-600">This workspace area is ready for a later implementation phase.</p></x-layouts.app>
