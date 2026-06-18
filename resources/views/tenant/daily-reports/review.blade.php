@@ -1,1 +1,3 @@
 <x-layouts.app><h1>Daily Report Review</h1><ul>@foreach($reports as $report)<li><a href="/daily-reports/{{ $report->id }}/review">{{ $report->user->name }} - {{ $report->report_date->toDateString() }}</a></li>@endforeach</ul>{{ $reports->links() }}</x-layouts.app>
+
+<section class="mt-6 rounded bg-indigo-50 p-4 text-sm"><h2 class="font-semibold">AI panel</h2><p class="text-gray-600">daily report AI summary. Suggestions only; manager approval required.</p><form class="mt-3" method="POST" action="/ai/daily-report-summary">@csrf<input class="rounded border p-2" type="date" name="date" value="{{ today()->toDateString() }}"><button class="rounded bg-indigo-700 px-3 py-2 text-white">Generate AI suggestion</button></form></section>

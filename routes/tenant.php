@@ -16,6 +16,8 @@ use App\Http\Controllers\Tenant\WorkProofController;
 use App\Http\Controllers\Tenant\TaskApprovalController;
 use App\Http\Controllers\Tenant\ManagerDashboardController;
 use App\Http\Controllers\Tenant\MissingReportController;
+use App\Http\Controllers\Tenant\AiController;
+use App\Http\Controllers\Tenant\AiSummaryController;
 
 
 Route::middleware([
@@ -60,6 +62,13 @@ Route::middleware([
     Route::post('/task-approvals/{approval}/reject', [TaskApprovalController::class, 'reject'])->name('tenant.task-approvals.reject');
     Route::get('/missing-reports', [MissingReportController::class, 'index'])->name('tenant.missing-reports.index');
     Route::get('/manager-dashboard', ManagerDashboardController::class)->name('tenant.manager-dashboard');
+    Route::get('/ai-summary', AiSummaryController::class)->name('tenant.ai-summary.index');
+    Route::post('/ai/daily-report-summary', [AiController::class, 'dailyReportSummary'])->name('tenant.ai.daily-report-summary');
+    Route::post('/ai/task-cleaner', [AiController::class, 'taskCleaner'])->name('tenant.ai.task-cleaner');
+    Route::post('/ai/checklist-generator', [AiController::class, 'checklistGenerator'])->name('tenant.ai.checklist-generator');
+    Route::post('/ai/risk-summary', [AiController::class, 'riskSummary'])->name('tenant.ai.risk-summary');
+    Route::post('/ai/follow-up-suggestion', [AiController::class, 'followUpSuggestion'])->name('tenant.ai.follow-up-suggestion');
+    Route::post('/ai/weekly-summary', [AiController::class, 'weeklySummary'])->name('tenant.ai.weekly-summary');
 
     Route::get('/tasks', [TaskController::class, 'index'])->name('tenant.tasks.index');
     Route::get('/tasks/create', [TaskController::class, 'create'])->name('tenant.tasks.create');
@@ -70,6 +79,7 @@ Route::middleware([
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tenant.tasks.destroy');
     Route::post('/tasks/{task}/comments', [TaskCommentController::class, 'store'])->name('tenant.tasks.comments.store');
     Route::post('/tasks/{task}/checklists', [TaskChecklistController::class, 'store'])->name('tenant.tasks.checklists.store');
+    Route::post('/tasks/{task}/ai-checklist/accept', [AiController::class, 'acceptChecklist'])->name('tenant.tasks.ai-checklist.accept');
     Route::patch('/tasks/{task}/checklists/{checklist}', [TaskChecklistController::class, 'update'])->name('tenant.tasks.checklists.update');
     Route::delete('/tasks/{task}/checklists/{checklist}', [TaskChecklistController::class, 'destroy'])->name('tenant.tasks.checklists.destroy');
     Route::post('/tasks/{task}/attachments', [TaskAttachmentController::class, 'store'])->name('tenant.tasks.attachments.store');

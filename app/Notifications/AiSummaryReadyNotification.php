@@ -1,0 +1,3 @@
+<?php
+namespace App\Notifications;use App\Models\AiSummary;use Illuminate\Bus\Queueable;use Illuminate\Notifications\Messages\MailMessage;use Illuminate\Notifications\Notification;
+class AiSummaryReadyNotification extends Notification{use Queueable;public function __construct(public AiSummary $summary){}public function via(object $notifiable):array{return ['database'];}public function toArray(object $notifiable):array{return ['summary_id'=>$this->summary->id,'summary_type'=>$this->summary->summary_type,'message'=>'AI summary is ready for manager review.'];}public function toMail(object $notifiable):MailMessage{return (new MailMessage)->subject('AI summary ready')->line('An AI summary is ready for review.');}}
