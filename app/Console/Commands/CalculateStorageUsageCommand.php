@@ -1,0 +1,2 @@
+<?php
+namespace App\Console\Commands;use App\Jobs\CalculateStorageUsageJob;use Illuminate\Console\Command;class CalculateStorageUsageCommand extends Command{protected $signature='workproof:calculate-storage-usage';protected $description='Queue storage usage calculation';public function handle():int{CalculateStorageUsageJob::dispatch();$this->info('Storage usage calculation queued.');return self::SUCCESS;}}

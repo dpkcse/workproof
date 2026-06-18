@@ -1,0 +1,3 @@
+<?php
+namespace App\Jobs;use App\Models\Workspace;use App\Services\PerformanceScoreService;use Carbon\Carbon;use Illuminate\Bus\Queueable;use Illuminate\Contracts\Queue\ShouldQueue;use Illuminate\Foundation\Bus\Dispatchable;use Illuminate\Queue\InteractsWithQueue;use Illuminate\Queue\SerializesModels;
+class CalculateWeeklyPerformanceScoresJob implements ShouldQueue{use Dispatchable,InteractsWithQueue,Queueable,SerializesModels;public function __construct(public Workspace $workspace,public ?string $weekStart=null){}public function handle(PerformanceScoreService $s):void{$d=Carbon::parse($this->weekStart??now()->startOfWeek());$this->workspace->users()->chunk(100,fn($users)=>$users->each(fn($u)=>$s->calculateWeeklyScore($this->workspace,$u,$d)));}}

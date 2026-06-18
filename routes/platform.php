@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Platform\AiUsageController;
+use App\Http\Controllers\Platform\SystemHealthController;
+use App\Http\Controllers\Platform\StorageUsageController;
 use App\Http\Controllers\Platform\BillingController;
 use App\Http\Controllers\Platform\DashboardController;
 use App\Http\Controllers\Platform\PaymentController;
@@ -30,5 +32,7 @@ Route::middleware(['auth', 'ensure.platform.user'])
         Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
         Route::post('/payments/{payment}/mark-successful', [PaymentController::class, 'markSuccessful'])->name('payments.mark-successful');
         Route::get('/ai-usage', AiUsageController::class)->name('ai-usage.index');
+        Route::get('/system-health', SystemHealthController::class)->name('system-health');
+        Route::get('/storage-usage', StorageUsageController::class)->name('storage-usage');
         Route::get('/support', SupportController::class)->name('support.index');
     });

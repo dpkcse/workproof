@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsurePlatformUser;
+use App\Http\Middleware\EnsureSaasEnabled;
 use App\Http\Middleware\EnsureTenantMember;
 use App\Http\Middleware\EnsureWorkspaceActive;
 use App\Http\Middleware\ResolveCurrentWorkspace;
@@ -21,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'ensure.workspace.active' => EnsureWorkspaceActive::class,
             'ensure.tenant.member' => EnsureTenantMember::class,
             'ensure.platform.user' => EnsurePlatformUser::class,
+            'ensure.saas.enabled' => EnsureSaasEnabled::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
