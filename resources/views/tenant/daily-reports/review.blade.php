@@ -1,0 +1,1 @@
+<x-layouts.app><h1>Daily Report Review</h1><ul>@foreach($reports as $report)<li><a href="/daily-reports/{{ $report->id }}/review">{{ $report->user->name }} - {{ $report->report_date->toDateString() }}</a></li>@endforeach</ul>{{ $reports->links() }}</x-layouts.app>

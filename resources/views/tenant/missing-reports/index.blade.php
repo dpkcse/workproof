@@ -1,0 +1,1 @@
+<x-layouts.app><h1>Missing Reports</h1><ul>@foreach($missingReports as $missing)<li>{{ $missing->user->name }} - {{ $missing->report_date->toDateString() }} - {{ $missing->status }}</li>@endforeach</ul>{{ $missingReports->links() }}</x-layouts.app>

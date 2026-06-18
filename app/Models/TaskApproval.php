@@ -1,0 +1,3 @@
+<?php
+namespace App\Models;use App\Models\Concerns\BelongsToWorkspace;use Illuminate\Database\Eloquent\Model;
+class TaskApproval extends Model{use BelongsToWorkspace;public const STATUSES=['pending','approved','rejected','cancelled'];protected $fillable=['workspace_id','task_id','requested_by','approver_id','status','requested_at','reviewed_at','comment','rejection_reason'];protected function casts():array{return['requested_at'=>'datetime','reviewed_at'=>'datetime'];}public function task(){return $this->belongsTo(Task::class);}public function requester(){return $this->belongsTo(User::class,'requested_by');}public function approver(){return $this->belongsTo(User::class,'approver_id');}}
