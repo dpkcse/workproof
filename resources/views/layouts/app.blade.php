@@ -8,14 +8,15 @@
         <nav class="mt-8 space-y-2 text-sm">
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/dashboard') }}">Dashboard</a>
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/tasks') }}">Tasks</a>
-            <span class="block rounded px-3 py-2 text-slate-400">Daily Reports — coming soon</span>
-            <span class="block rounded px-3 py-2 text-slate-400">Proof Review — coming soon</span>
-            <span class="block rounded px-3 py-2 text-slate-400">Approvals — coming soon</span>
+            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/daily-reports') }}">Daily Reports</a>
+            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/proof-review') }}">Proof Review</a>
+            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/approvals') }}">Approvals</a>
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/projects') }}">Projects</a>
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/task-categories') }}">Task Categories</a>
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/teams') }}">Teams</a>
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/users') }}">Users</a>
-            <span class="block rounded px-3 py-2 text-slate-400">Reports — coming soon</span>
+            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/missing-reports') }}">Missing Reports</a>
+            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/manager-dashboard') }}">Manager Dashboard</a>
             <span class="block rounded px-3 py-2 text-slate-400">AI Summary — coming soon</span>
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/settings/company') }}">Settings</a>
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ url('/billing') }}">Billing</a>

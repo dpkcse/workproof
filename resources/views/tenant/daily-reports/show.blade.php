@@ -1,0 +1,1 @@
+<x-layouts.app><h1>Daily Report {{ $report->report_date->toDateString() }}</h1><p>Status: {{ $report->status }} @if($report->is_late)Late@endif</p><p>{{ $report->completed_summary }}</p>@if(in_array($report->status,['draft','rejected']))<form method="post" action="/daily-reports/{{ $report->id }}/submit">@csrf<button>Submit</button></form>@endif</x-layouts.app>
