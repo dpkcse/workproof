@@ -34,8 +34,8 @@
                 <a class="hover:text-rose-600" href="#contact">Contact</a>
             </div>
             <div class="flex items-center gap-3">
-                <a href="{{ route('login') }}" class="hidden rounded-full px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 sm:inline-flex">Login</a>
-                <a href="{{ route('register') }}" class="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-300 transition hover:-translate-y-0.5">Get Started</a>
+                <a href="{{ url('/login') }}" class="hidden rounded-full px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 sm:inline-flex">Login</a>
+                <a href="{{ url('/register') }}" class="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-300 transition hover:-translate-y-0.5">Get Started</a>
             </div>
         </nav>
     </header>
@@ -49,7 +49,7 @@
                     <h1 class="mt-6 max-w-4xl text-4xl font-black tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">All-in-One Work Management & Team Monitoring Software</h1>
                     <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">Track daily tasks, monitor employee performance, manage CRM leads, follow up clients, and generate reports from one simple system.</p>
                     <div class="mt-9 flex flex-col gap-4 sm:flex-row">
-                        <a href="{{ route('register') }}" class="rounded-full bg-gradient-to-r from-rose-500 to-blue-600 px-7 py-4 text-center font-bold text-white shadow-xl shadow-rose-200 transition hover:-translate-y-1">Start Free Trial</a>
+                        <a href="{{ url('/register') }}" class="rounded-full bg-gradient-to-r from-rose-500 to-blue-600 px-7 py-4 text-center font-bold text-white shadow-xl shadow-rose-200 transition hover:-translate-y-1">Start Free Trial</a>
                         <a href="#demo" class="rounded-full border border-slate-200 bg-white px-7 py-4 text-center font-bold text-slate-800 shadow-sm hover:border-blue-200 hover:text-blue-700">View Demo</a>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
 
         <section class="mx-auto max-w-7xl px-5 py-20 lg:px-8"><div class="grid gap-5 md:grid-cols-3">@foreach (['WorkProof gave our managers a single place to review daily output.','Our sales follow-ups stopped falling through the cracks.','Reporting that took hours is now ready before meetings.'] as $quote)<blockquote class="rounded-[2rem] border border-slate-100 bg-white p-7 shadow-sm"><p class="text-slate-700">“{{ $quote }}”</p><footer class="mt-5 font-bold text-slate-950">Business Manager</footer></blockquote>@endforeach</div></section>
 
-        <section id="contact" class="px-5 pb-20 lg:px-8"><div class="mx-auto max-w-7xl rounded-[2.5rem] bg-gradient-to-br from-rose-500 to-blue-600 p-10 text-center text-white shadow-soft lg:p-16"><h2 class="text-3xl font-black sm:text-5xl">Ready to Monitor Your Team and Grow Faster?</h2><a href="{{ route('register') }}" class="mt-8 inline-flex rounded-full bg-white px-8 py-4 font-black text-slate-950 shadow-lg">Get Started Today</a></div></section>
+        <section id="contact" class="px-5 pb-20 lg:px-8"><div class="mx-auto max-w-7xl rounded-[2.5rem] bg-gradient-to-br from-rose-500 to-blue-600 p-10 text-center text-white shadow-soft lg:p-16"><h2 class="text-3xl font-black sm:text-5xl">Ready to Monitor Your Team and Grow Faster?</h2><a href="{{ url('/register') }}" class="mt-8 inline-flex rounded-full bg-white px-8 py-4 font-black text-slate-950 shadow-lg">Get Started Today</a></div></section>
     </main>
 
     <footer class="border-t border-slate-100 bg-white px-5 py-10 lg:px-8">

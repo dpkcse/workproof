@@ -10,7 +10,6 @@ use App\Http\Controllers\Platform\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'ensure.platform.user'])
-    ->prefix('platform')
     ->name('platform.')
     ->group(function (): void {
         Route::get('/dashboard', DashboardController::class)->name('dashboard');

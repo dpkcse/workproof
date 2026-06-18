@@ -13,6 +13,11 @@
             <a class="block rounded px-3 py-2 hover:bg-white/10" href="{{ route('platform.payments.index') }}">Payments</a>
             <a class="block rounded px-3 py-2 hover:bg-white/10" href="{{ route('platform.ai-usage.index') }}">AI Usage</a>
             <a class="block rounded px-3 py-2 hover:bg-white/10" href="{{ route('platform.support.index') }}">Support</a>
+
+            <form method="POST" action="{{ url('/logout') }}">
+                @csrf
+                <button class="block w-full rounded px-3 py-2 text-left hover:bg-white/10" type="submit">Logout</button>
+            </form>
         </nav>
     </aside>
     <main class="flex-1 p-8">

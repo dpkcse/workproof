@@ -37,38 +37,82 @@ class AuthenticatedSessionController extends Controller
 
     public function destroy(Request $request): RedirectResponse
     {
+        $loginUrl = $this->urlForCurrentHost($request, '/login');
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('status', 'You have been logged out.');
+        return redirect($loginUrl)->with('status', 'You have been logged out.');
     }
 
     private function redirectAuthenticatedUser(Request $request): RedirectResponse
     {
         $user = $request->user();
+        $host = strtolower($request->getHost());
 
         if ($user?->isPlatformUser()) {
-            return redirect()->intended(route('platform.dashboard'));
+            return redirect()->intended($this->isAdminHost($host) ? $this->urlForCurrentHost($request, '/dashboard') : $this->absoluteUrl(config('workproof.domains.admin'), '/dashboard', $request));
         }
 
-        $workspace = $user?->workspaces()
-            ->orderByRaw("CASE WHEN workspace_user.status = 'active' THEN 0 ELSE 1 END")
-            ->oldest('workspaces.id')
-            ->first();
+        $workspace = $this->workspaceForRequest($request);
 
         if (! $workspace instanceof Workspace) {
-            return redirect()->route('workspace.setup')
+            return redirect($this->urlForMainHost('/workspace/setup', $request))
                 ->with('status', 'Please finish setting up your workspace to continue.');
         }
 
         $request->session()->put('current_workspace_id', $workspace->id);
 
-        if (in_array($workspace->status, ['suspended', 'cancelled', 'expired'], true)) {
-            return redirect()->route('tenant.dashboard');
+        return redirect()->intended($this->workspaceUrl($workspace, '/dashboard', $request));
+    }
+
+    private function workspaceForRequest(Request $request): ?Workspace
+    {
+        $host = strtolower($request->getHost());
+        $tenantSuffix = strtolower((string) config('workproof.domains.tenant_suffix'));
+
+        if ($tenantSuffix && str_ends_with($host, '.'.$tenantSuffix)) {
+            $slug = str($host)->before('.'.$tenantSuffix)->toString();
+            $workspace = $request->user()?->workspaces()->where('slug', $slug)->first();
+
+            if ($workspace instanceof Workspace) {
+                return $workspace;
+            }
         }
 
-        return redirect()->intended(route('tenant.dashboard'));
+        return $request->user()?->workspaces()
+            ->orderByRaw("CASE WHEN workspace_user.status = 'active' THEN 0 ELSE 1 END")
+            ->oldest('workspaces.id')
+            ->first();
+    }
+
+    private function isAdminHost(string $host): bool
+    {
+        return $host === strtolower((string) config('workproof.domains.admin'));
+    }
+
+    private function workspaceUrl(Workspace $workspace, string $path, Request $request): string
+    {
+        return $this->absoluteUrl($workspace->slug.'.'.config('workproof.domains.tenant_suffix'), $path, $request);
+    }
+
+    private function urlForMainHost(string $path, Request $request): string
+    {
+        return $this->absoluteUrl(config('workproof.domains.main'), $path, $request);
+    }
+
+    private function urlForCurrentHost(Request $request, string $path): string
+    {
+        return $this->absoluteUrl($request->getHost(), $path, $request);
+    }
+
+    private function absoluteUrl(?string $host, string $path, Request $request): string
+    {
+        $port = $request->getPort();
+        $portSuffix = in_array($port, [80, 443], true) ? '' : ':'.$port;
+
+        return $request->getScheme().'://'.$host.$portSuffix.$path;
     }
 }

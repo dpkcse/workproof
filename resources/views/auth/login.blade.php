@@ -43,7 +43,7 @@
                     </div>
                 @endif
 
-                <form class="mt-8 space-y-5" method="POST" action="{{ route('login') }}">
+                <form class="mt-8 space-y-5" method="POST" action="{{ url('/login') }}">
                     @csrf
 
                     <div>
@@ -78,7 +78,7 @@
                 <p class="mt-8 text-center text-sm text-slate-600">
                     Need a workspace?
                     @if (Route::has('register'))
-                        <a class="font-bold text-cyan-700 hover:text-cyan-900" href="{{ route('register') }}">Start a free trial</a>
+                        <a class="font-bold text-cyan-700 hover:text-cyan-900" href="{{ url('/register') }}">Start a free trial</a>
                     @else
                         <a class="font-bold text-cyan-700 hover:text-cyan-900" href="/register">Start a free trial</a>
                     @endif
