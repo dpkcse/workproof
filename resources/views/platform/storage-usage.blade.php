@@ -1,0 +1,1 @@
+<x-layouts.platform title="Storage Usage"><h1 class="text-2xl font-bold">Storage Usage</h1><div class="mt-4 rounded bg-white p-4">@foreach($workspaces as $workspace)<div>{{ $workspace->name }} — users: {{ $workspace->users_count }}</div>@endforeach {{ $workspaces->links() }}</div></x-layouts.platform>

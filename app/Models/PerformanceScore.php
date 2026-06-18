@@ -1,0 +1,3 @@
+<?php
+namespace App\Models;use App\Models\Concerns\BelongsToWorkspace;use Illuminate\Database\Eloquent\Model;
+class PerformanceScore extends Model{use BelongsToWorkspace;protected $fillable=['workspace_id','user_id','score_date','period_type','assigned_tasks_count','completed_tasks_count','overdue_tasks_count','reopened_tasks_count','daily_report_submitted','daily_report_late','blocker_count','proof_rejection_count','approval_rejection_count','score','metadata','calculated_at'];protected function casts():array{return['score_date'=>'date','daily_report_submitted'=>'bool','daily_report_late'=>'bool','metadata'=>'array','calculated_at'=>'datetime','score'=>'decimal:2'];}public function user(){return $this->belongsTo(User::class);} }

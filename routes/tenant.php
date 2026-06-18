@@ -21,6 +21,9 @@ use App\Http\Controllers\Tenant\AiSummaryController;
 use App\Http\Controllers\Tenant\BillingController;
 use App\Http\Controllers\Tenant\InvoiceController;
 use App\Http\Controllers\Tenant\SubscriptionController;
+use App\Http\Controllers\Tenant\PerformanceController;
+use App\Http\Controllers\Tenant\ReportExportController;
+use App\Http\Controllers\Tenant\ReportController;
 
 
 Route::middleware([
@@ -30,6 +33,24 @@ Route::middleware([
     'ensure.tenant.member',
 ])->group(function (): void {
     Route::get('/dashboard', DashboardController::class)->name('tenant.dashboard');
+
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('tenant.reports.index');
+    Route::get('/reports/tasks/status', [ReportController::class, 'taskStatus']);
+    Route::get('/reports/tasks/overdue', [ReportController::class, 'overdueTasks']);
+    Route::get('/reports/tasks/no-update', [ReportController::class, 'noUpdateTasks']);
+    Route::get('/reports/proofs/pending', [ReportController::class, 'proofPending']);
+    Route::get('/reports/approvals/pending', [ReportController::class, 'approvalPending']);
+    Route::get('/reports/daily-submissions', [ReportController::class, 'dailySubmissions']);
+    Route::get('/reports/missing-reports', [ReportController::class, 'missingReports']);
+    Route::get('/reports/employee-performance', [ReportController::class, 'employeePerformance']);
+    Route::get('/reports/team-performance', [ReportController::class, 'teamPerformance']);
+    Route::get('/reports/ai-weekly-summary', [ReportController::class, 'aiWeeklySummary']);
+    Route::post('/reports/export', [ReportExportController::class, 'store']);
+    Route::get('/reports/exports', [ReportExportController::class, 'index']);
+    Route::get('/reports/exports/{export}/download', [ReportExportController::class, 'download']);
+    Route::get('/performance', [PerformanceController::class, 'index']);
+    Route::get('/performance/users/{user}', [PerformanceController::class, 'user']);
 
     Route::get('/onboarding', [OnboardingController::class, 'index'])->name('tenant.onboarding');
     Route::post('/onboarding/company-profile', [OnboardingController::class, 'companyProfile'])->name('tenant.onboarding.company-profile');
