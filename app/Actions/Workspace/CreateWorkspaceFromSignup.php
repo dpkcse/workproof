@@ -13,6 +13,7 @@ use App\Services\Audit\AuditLogService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use RuntimeException;
 
 class CreateWorkspaceFromSignup
 {
@@ -69,11 +70,21 @@ class CreateWorkspaceFromSignup
                 ]);
             }
 
-            $workspace->users()->attach($user->id, [
-                'role_key' => 'workspace_owner',
-                'status' => 'active',
-                'joined_at' => now(),
+            $joinedAt = now();
+
+            $workspace->users()->syncWithoutDetaching([
+                $user->id => [
+                    'role_key' => 'workspace_owner',
+                    'status' => 'active',
+                    'joined_at' => $joinedAt,
+                ],
             ]);
+
+            $membership = $user->activeWorkspaceMembership($workspace->id);
+
+            if (! $membership || $membership->role_key !== 'workspace_owner') {
+                throw new RuntimeException('Workspace owner membership was not created during signup.');
+            }
 
             if (method_exists($user, 'assignRole')) {
                 $user->assignRole('workspace_owner');
