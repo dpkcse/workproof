@@ -1,0 +1,3 @@
+<?php
+namespace App\Jobs;use App\Models\Invoice;use App\Notifications\InvoiceOverdueNotification;use App\Services\Billing\SubscriptionService;use Illuminate\Contracts\Queue\ShouldQueue;use Illuminate\Foundation\Queue\Queueable;
+class MarkOverdueInvoicesJob implements ShouldQueue{use Queueable;public function handle(SubscriptionService $subs):void{Invoice::whereIn('status',['issued','draft'])->whereDate('due_date','<',today())->chunkById(100,function($invoices)use($subs){foreach($invoices as $i){$i->update(['status'=>'overdue']);if($i->subscription)$subs->startGracePeriod($i->subscription);$i->workspace?->owner?->notify(new InvoiceOverdueNotification($i));}});}}

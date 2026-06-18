@@ -1,0 +1,1 @@
+<x-layouts.app title="Invoices"><h1>Invoices</h1>@foreach($invoices as $invoice)<p><a href="/billing/invoices/{{ $invoice->id }}">{{ $invoice->invoice_number }}</a> {{ $invoice->status }} {{ $invoice->amount_due }}</p>@endforeach{{ $invoices->links() }}</x-layouts.app>

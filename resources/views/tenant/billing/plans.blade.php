@@ -1,0 +1,1 @@
+<x-layouts.app title="Plans"><h1>Plans</h1>@foreach($plans as $plan)<form method="post" action="/billing/change-plan">@csrf<input type="hidden" name="plan_id" value="{{ $plan->id }}"><button>{{ $plan->name }} {{ $plan->monthly_price }}</button></form>@endforeach</x-layouts.app>

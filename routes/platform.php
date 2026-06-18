@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Platform\AiUsageController;
+use App\Http\Controllers\Platform\BillingController;
 use App\Http\Controllers\Platform\DashboardController;
 use App\Http\Controllers\Platform\PaymentController;
 use App\Http\Controllers\Platform\PlanController;
@@ -22,8 +23,12 @@ Route::middleware(['auth', 'ensure.platform.user'])
         Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
         Route::post('/plans', [PlanController::class, 'store'])->name('plans.store');
 
-        Route::get('/subscriptions', SubscriptionController::class)->name('subscriptions.index');
-        Route::get('/payments', PaymentController::class)->name('payments.index');
+        Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
+        Route::post('/subscriptions/{subscription}/change-status', [SubscriptionController::class, 'changeStatus'])->name('subscriptions.change-status');
+        Route::get('/invoices', [BillingController::class, 'invoices'])->name('invoices.index');
+        Route::post('/invoices/{invoice}/mark-paid', [PaymentController::class, 'markInvoicePaid'])->name('invoices.mark-paid');
+        Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+        Route::post('/payments/{payment}/mark-successful', [PaymentController::class, 'markSuccessful'])->name('payments.mark-successful');
         Route::get('/ai-usage', AiUsageController::class)->name('ai-usage.index');
         Route::get('/support', SupportController::class)->name('support.index');
     });

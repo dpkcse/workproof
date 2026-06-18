@@ -1,0 +1,1 @@
+<x-layouts.app title="Billing"><h1>Billing</h1><p>Plan: {{ $subscription?->plan?->name ?? 'None' }} / {{ $subscription?->status }}</p><a href="/billing/plans">Plans</a> <a href="/billing/invoices">Invoices</a> <a href="/billing/payments">Payments</a></x-layouts.app>
