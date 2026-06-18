@@ -25,6 +25,11 @@ class DashboardController extends Controller
             'departmentsCount' => \App\Models\Department::query()->forWorkspace($workspace->id)->count(),
             'teamsCount' => \App\Models\Team::query()->forWorkspace($workspace->id)->count(),
             'onboardingPercent' => $totalSteps > 0 ? (int) round(($completedSteps / $totalSteps) * 100) : 0,
+            'totalTasks' => \App\Models\Task::query()->forWorkspace($workspace->id)->count(),
+            'todayTasks' => \App\Models\Task::query()->forWorkspace($workspace->id)->whereDate('due_date', today())->count(),
+            'overdueTasks' => \App\Models\Task::query()->forWorkspace($workspace->id)->whereDate('due_date', '<', today())->where('status', '!=', 'completed')->count(),
+            'completedTasks' => \App\Models\Task::query()->forWorkspace($workspace->id)->where('status', 'completed')->count(),
+            'myAssignedTasks' => \App\Models\Task::query()->forWorkspace($workspace->id)->whereHas('assignedUsers', fn ($query) => $query->where('users.id', auth()->id()))->count(),
         ]);
     }
 }

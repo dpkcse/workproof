@@ -1,0 +1,19 @@
+@csrf
+<div class="grid gap-4 md:grid-cols-2">
+<label class="md:col-span-2">Title<input class="mt-1 w-full rounded border p-2" name="title" value="{{ old('title',$task->title??'') }}" required></label>
+<label class="md:col-span-2">Description<textarea class="mt-1 w-full rounded border p-2" name="description">{{ old('description',$task->description??'') }}</textarea></label>
+<label>Category<select class="mt-1 w-full rounded border p-2" name="task_category_id"><option value="">None</option>@foreach($categories as $c)<option value="{{ $c->id }}" @selected(old('task_category_id',$task->task_category_id??'')==$c->id)>{{ $c->name }}</option>@endforeach</select></label>
+<label>Project<select class="mt-1 w-full rounded border p-2" name="project_id"><option value="">None</option>@foreach($projects as $p)<option value="{{ $p->id }}" @selected(old('project_id',$task->project_id??'')==$p->id)>{{ $p->name }}</option>@endforeach</select></label>
+<label>Department<select class="mt-1 w-full rounded border p-2" name="department_id"><option value="">None</option>@foreach($departments as $d)<option value="{{ $d->id }}" @selected(old('department_id',$task->department_id??'')==$d->id)>{{ $d->name }}</option>@endforeach</select></label>
+<label>Team<select class="mt-1 w-full rounded border p-2" name="team_id"><option value="">None</option>@foreach($teams as $t)<option value="{{ $t->id }}" @selected(old('team_id',$task->team_id??'')==$t->id)>{{ $t->name }}</option>@endforeach</select></label>
+<label>Priority<select class="mt-1 w-full rounded border p-2" name="priority">@foreach($priorities as $p)<option value="{{ $p }}" @selected(old('priority',$task->priority??'medium')==$p)>{{ ucfirst($p) }}</option>@endforeach</select></label>
+<label>Status<select class="mt-1 w-full rounded border p-2" name="status">@foreach($statuses as $s)<option value="{{ $s }}" @selected(old('status',$task->status??'new')==$s)>{{ str_replace('_',' ',ucfirst($s)) }}</option>@endforeach</select></label>
+<label>Start date<input type="date" class="mt-1 w-full rounded border p-2" name="start_date" value="{{ old('start_date',isset($task)&&$task->start_date?$task->start_date->toDateString():'') }}"></label>
+<label>Due date<input type="date" class="mt-1 w-full rounded border p-2" name="due_date" value="{{ old('due_date',isset($task)&&$task->due_date?$task->due_date->toDateString():'') }}"></label>
+<label>Estimated hours<input type="number" step="0.25" class="mt-1 w-full rounded border p-2" name="estimated_hours" value="{{ old('estimated_hours',$task->estimated_hours??'') }}"></label>
+<label>Assignees<select multiple class="mt-1 h-32 w-full rounded border p-2" name="assignees[]">@foreach($users as $u)<option value="{{ $u->id }}" @selected(collect(old('assignees',isset($task)?$task->assignedUsers->pluck('id')->all():[]))->contains($u->id))>{{ $u->name }}</option>@endforeach</select></label>
+<label>Watchers<select multiple class="mt-1 h-32 w-full rounded border p-2" name="watchers[]">@foreach($users as $u)<option value="{{ $u->id }}" @selected(collect(old('watchers',isset($task)?$task->watchers->pluck('id')->all():[]))->contains($u->id))>{{ $u->name }}</option>@endforeach</select></label>
+@if(!isset($task))<label class="md:col-span-2">Checklist items<textarea class="mt-1 w-full rounded border p-2" name="checklist_items[]" placeholder="One starter item"></textarea></label>@endif
+<label class="flex items-center gap-2"><input type="hidden" name="proof_required" value="0"><input type="checkbox" name="proof_required" value="1" @checked(old('proof_required',$task->proof_required??false))> Proof required</label>
+<label class="flex items-center gap-2"><input type="hidden" name="approval_required" value="0"><input type="checkbox" name="approval_required" value="1" @checked(old('approval_required',$task->approval_required??false))> Approval required</label>
+</div><button class="mt-6 rounded bg-blue-600 px-4 py-2 font-semibold text-white">Save task</button>

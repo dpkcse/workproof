@@ -1,0 +1,3 @@
+<?php
+namespace App\Http\Controllers\Tenant;use App\Http\Controllers\Controller;use App\Models\Task;use App\Support\CurrentWorkspace;use Illuminate\Http\Request;
+class TaskCommentController extends Controller{use Concerns;public function store(Request $r,Task $task,CurrentWorkspace $cw){$this->requirePerm('tenant.tasks.update');$w=$this->ws($cw);$data=$r->validate(['comment'=>'required|string','parent_id'=>'nullable|exists:task_comments,id']);$task->comments()->create(['workspace_id'=>$w->id,'user_id'=>$r->user()->id]+$data);$this->logTask($task,'comment_added',[],[],'Comment added');return back()->with('status','Comment added.');}}
