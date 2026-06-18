@@ -42,6 +42,10 @@ class RegisteredWorkspaceController extends Controller
         $request->session()->regenerate();
         $request->session()->put('current_workspace_id', $result['workspace']->id);
 
-        return redirect()->route('tenant.onboarding');
+        $host = $result['workspace']->slug.'.'.config('workproof.domains.tenant_suffix');
+        $port = $request->getPort();
+        $portSuffix = in_array($port, [80, 443], true) ? '' : ':'.$port;
+
+        return redirect($request->getScheme().'://'.$host.$portSuffix.'/onboarding');
     }
 }

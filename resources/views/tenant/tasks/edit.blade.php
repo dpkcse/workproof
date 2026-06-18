@@ -1,1 +1,1 @@
-<x-layouts.app title="Edit Task"><h1 class="text-2xl font-bold">Edit task</h1><form class="mt-6 rounded bg-white p-6 shadow" method="post" action="{{ route('tenant.tasks.update',$task) }}">@method('PUT')@include('tenant.tasks._form')</form></x-layouts.app>
+<x-layouts.app title="Edit Task"><h1 class="text-2xl font-bold">Edit task</h1><form class="mt-6 rounded bg-white p-6 shadow" method="post" action="{{ url('/tasks/'.$task->id) }}">@method('PUT')@include('tenant.tasks._form')</form></x-layouts.app>

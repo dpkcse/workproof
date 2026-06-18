@@ -148,7 +148,7 @@ class OnboardingController extends Controller
 
         $auditLogService->log('onboarding_completed', $workspace, [], ['completed' => true], $workspace->id);
 
-        return redirect()->route('tenant.dashboard');
+        return redirect('/dashboard');
     }
 
     private function completeStep($workspace, string $stepKey): void

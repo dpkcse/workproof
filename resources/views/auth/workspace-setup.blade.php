@@ -17,9 +17,9 @@
             <p class="mt-5 text-slate-600">Your account does not currently have an active workspace membership. Create a workspace trial or ask your workspace administrator to invite you.</p>
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                 @if (Route::has('register'))
-                    <a class="rounded-xl bg-slate-950 px-5 py-3 text-center font-bold text-white hover:bg-cyan-700" href="{{ route('register') }}">Create workspace</a>
+                    <a class="rounded-xl bg-slate-950 px-5 py-3 text-center font-bold text-white hover:bg-cyan-700" href="{{ url('/register') }}">Create workspace</a>
                 @endif
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ url('/logout') }}">
                     @csrf
                     <button class="w-full rounded-xl border border-slate-300 px-5 py-3 font-bold text-slate-700 hover:bg-slate-100" type="submit">Log out</button>
                 </form>

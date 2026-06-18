@@ -23,8 +23,13 @@ class ResolveCurrentWorkspace
             return $next($request);
         }
 
-        $workspace = $this->resolveFromHost($request)
-            ?? $this->resolveFromSession($request)
+        $workspace = $this->resolveFromHost($request);
+
+        if (! $workspace && $this->isTenantHost($request->getHost())) {
+            abort(404, 'Workspace could not be resolved for this tenant subdomain.');
+        }
+
+        $workspace ??= $this->resolveFromSession($request)
             ?? $this->resolvePrivateOrEnterpriseDefault();
 
         if (! $workspace) {
@@ -40,7 +45,7 @@ class ResolveCurrentWorkspace
     private function resolveFromHost(Request $request): ?Workspace
     {
         $host = strtolower($request->getHost());
-        $subdomainRoot = strtolower((string) config('workproof.domains.subdomain_root'));
+        $subdomainRoot = strtolower((string) config('workproof.domains.tenant_suffix', config('workproof.domains.subdomain_root')));
         $mainDomain = strtolower((string) config('workproof.domains.main'));
 
         if ($host === $subdomainRoot || $host === $mainDomain) {
@@ -92,5 +97,15 @@ class ResolveCurrentWorkspace
     private function isPlatformHost(string $host): bool
     {
         return strtolower($host) === strtolower((string) config('workproof.domains.admin'));
+    }
+
+    private function isTenantHost(string $host): bool
+    {
+        $host = strtolower($host);
+        $tenantSuffix = strtolower((string) config('workproof.domains.tenant_suffix', config('workproof.domains.subdomain_root')));
+
+        return $tenantSuffix !== ''
+            && str_ends_with($host, '.'.$tenantSuffix)
+            && $host !== strtolower((string) config('workproof.domains.admin'));
     }
 }
