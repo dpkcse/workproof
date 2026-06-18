@@ -1,0 +1,2 @@
+<?php
+namespace App\Console\Commands;use App\Jobs\CalculateWeeklyPerformanceScoresJob;use App\Models\Workspace;use Illuminate\Console\Command;class CalculateWeeklyPerformanceCommand extends Command{protected $signature='workproof:calculate-weekly-performance {--week-start=}';protected $description='Queue weekly performance score calculation';public function handle():int{Workspace::query()->each(fn($w)=>CalculateWeeklyPerformanceScoresJob::dispatch($w,$this->option('week-start')));$this->info('Weekly performance calculation queued.');return self::SUCCESS;}}

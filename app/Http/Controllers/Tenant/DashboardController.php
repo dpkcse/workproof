@@ -1,35 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Tenant;
-
-use App\Http\Controllers\Controller;
-use App\Support\CurrentWorkspace;
-use Illuminate\View\View;
-
-class DashboardController extends Controller
-{
-    public function __invoke(CurrentWorkspace $currentWorkspace): View
-    {
-        $workspace = $currentWorkspace->required()->loadMissing([
-            'subscription.plan',
-            'onboardingSteps',
-        ]);
-
-        $totalSteps = $workspace->onboardingSteps->count();
-        $completedSteps = $workspace->onboardingSteps->where('is_completed', true)->count();
-
-        return view('tenant.dashboard', [
-            'workspace' => $workspace,
-            'subscription' => $workspace->subscription,
-            'usersCount' => $workspace->users()->count(),
-            'departmentsCount' => \App\Models\Department::query()->forWorkspace($workspace->id)->count(),
-            'teamsCount' => \App\Models\Team::query()->forWorkspace($workspace->id)->count(),
-            'onboardingPercent' => $totalSteps > 0 ? (int) round(($completedSteps / $totalSteps) * 100) : 0,
-            'totalTasks' => \App\Models\Task::query()->forWorkspace($workspace->id)->count(),
-            'todayTasks' => \App\Models\Task::query()->forWorkspace($workspace->id)->whereDate('due_date', today())->count(),
-            'overdueTasks' => \App\Models\Task::query()->forWorkspace($workspace->id)->whereDate('due_date', '<', today())->where('status', '!=', 'completed')->count(),
-            'completedTasks' => \App\Models\Task::query()->forWorkspace($workspace->id)->where('status', 'completed')->count(),
-            'myAssignedTasks' => \App\Models\Task::query()->forWorkspace($workspace->id)->whereHas('assignedUsers', fn ($query) => $query->where('users.id', auth()->id()))->count(),
-        ]);
-    }
-}
+use App\Http\Controllers\Controller;use App\Models\{AiSummary,DailyReport,DailyReportItem,MissingDailyReport,Task,TaskApproval,Team,WorkProof};use App\Support\CurrentWorkspace;use Illuminate\View\View;
+class DashboardController extends Controller{public function __invoke(CurrentWorkspace $currentWorkspace):View{$workspace=$currentWorkspace->required()->loadMissing(['subscription.plan','onboardingSteps']);$totalSteps=$workspace->onboardingSteps->count();$completedSteps=$workspace->onboardingSteps->where('is_completed',true)->count();$base=Task::query()->forWorkspace($workspace->id);return view('tenant.dashboard',['workspace'=>$workspace,'subscription'=>$workspace->subscription,'usersCount'=>$workspace->users()->count(),'departmentsCount'=>\App\Models\Department::query()->forWorkspace($workspace->id)->count(),'teamsCount'=>Team::query()->forWorkspace($workspace->id)->count(),'onboardingPercent'=>$totalSteps>0?(int)round(($completedSteps/$totalSteps)*100):0,'totalTasks'=>(clone $base)->count(),'todayCompleted'=>(clone $base)->where('status','completed')->whereDate('completed_at',today())->count(),'todayPending'=>(clone $base)->whereDate('due_date',today())->where('status','!=','completed')->count(),'overdueTasks'=>(clone $base)->whereDate('due_date','<',today())->where('status','!=','completed')->count(),'noUpdateTasks'=>(clone $base)->where('updated_at','<',now()->subDays(7))->where('status','!=','completed')->count(),'proofPending'=>WorkProof::query()->forWorkspace($workspace->id)->where('status','submitted')->count(),'approvalPending'=>TaskApproval::query()->forWorkspace($workspace->id)->where('status','pending')->count(),'missingDailyReports'=>MissingDailyReport::query()->forWorkspace($workspace->id)->where('status','missing')->count(),'teamPerformance'=>Team::query()->forWorkspace($workspace->id)->withCount(['tasks','tasks as completed_tasks_count'=>fn($q)=>$q->where('status','completed')])->limit(5)->get(),'aiDailySummary'=>AiSummary::query()->forWorkspace($workspace->id)->where('summary_type','daily_report_summary')->latest('generated_at')->first(),'followUpRequired'=>(clone $base)->whereDate('due_date','<',today())->where('status','!=','completed')->limit(10)->get(),'myTasks'=>(clone $base)->whereHas('assignedUsers',fn($q)=>$q->where('users.id',auth()->id()))->count(),'todayReportStatus'=>DailyReport::query()->forWorkspace($workspace->id)->where('user_id',auth()->id())->whereDate('report_date',today())->value('status'),'reopenedTasks'=>(clone $base)->where('status','reopened')->whereHas('assignedUsers',fn($q)=>$q->where('users.id',auth()->id()))->count(),'upcomingDueTasks'=>(clone $base)->whereBetween('due_date',[today(),today()->addDays(7)])->where('status','!=','completed')->count(),'staffBlockers'=>DailyReportItem::query()->forWorkspace($workspace->id)->where('item_type','blocker')->whereDate('created_at',today())->count()]);}}

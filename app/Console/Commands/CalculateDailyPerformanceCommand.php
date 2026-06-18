@@ -1,0 +1,2 @@
+<?php
+namespace App\Console\Commands;use App\Jobs\CalculateDailyPerformanceScoresJob;use App\Models\Workspace;use Illuminate\Console\Command;class CalculateDailyPerformanceCommand extends Command{protected $signature='workproof:calculate-daily-performance {--date=}';protected $description='Queue daily performance score calculation';public function handle():int{Workspace::query()->each(fn($w)=>CalculateDailyPerformanceScoresJob::dispatch($w,$this->option('date')));$this->info('Daily performance calculation queued.');return self::SUCCESS;}}

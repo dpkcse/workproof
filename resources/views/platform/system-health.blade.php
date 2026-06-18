@@ -1,0 +1,1 @@
+<x-layouts.platform title="System Health"><h1 class="text-2xl font-bold">System Health</h1><pre class="mt-4 rounded bg-white p-4">{{ json_encode($checks, JSON_PRETTY_PRINT) }}</pre></x-layouts.platform>
