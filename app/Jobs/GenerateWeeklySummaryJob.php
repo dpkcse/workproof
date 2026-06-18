@@ -1,0 +1,3 @@
+<?php
+namespace App\Jobs;use App\Models\Workspace;use App\Services\AI\AiService;use Illuminate\Bus\Queueable;use Illuminate\Contracts\Queue\ShouldQueue;use Illuminate\Foundation\Bus\Dispatchable;use Illuminate\Queue\InteractsWithQueue;use Illuminate\Queue\SerializesModels;
+class GenerateWeeklySummaryJob implements ShouldQueue{use Dispatchable,InteractsWithQueue,Queueable,SerializesModels;public function __construct(public int $workspaceId,public string $weekStart,public ?int $userId=null){}public function handle(AiService $ai):void{$ai->generate(Workspace::findOrFail($this->workspaceId),'weekly_summary','Generate queued weekly performance summary.',['week_start'=>$this->weekStart],['user_id'=>$this->userId]);}}

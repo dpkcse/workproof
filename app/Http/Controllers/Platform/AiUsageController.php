@@ -1,19 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Platform;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\View\View;
-
-class AiUsageController extends Controller
-{
-    public function __invoke(): View
-    {
-        return view('platform.ai-usage.index', [
-            'aiUsageTableExists' => Schema::hasTable('ai_usage_logs'),
-            'usageLogs' => Schema::hasTable('ai_usage_logs') ? DB::table('ai_usage_logs')->latest()->limit(50)->get() : collect(),
-        ]);
-    }
-}
+use App\Http\Controllers\Controller;use App\Models\AiUsageLog;use App\Models\Workspace;use Illuminate\Http\Request;use Illuminate\Support\Facades\Schema;use Illuminate\View\View;
+class AiUsageController extends Controller{public function __invoke(Request $request):View{$exists=Schema::hasTable('ai_usage_logs');$logs=collect();if($exists){$logs=AiUsageLog::withoutWorkspaceScope()->with(['workspace','user'])->when($request->workspace_id,fn($q,$v)=>$q->where('workspace_id',$v))->when($request->feature,fn($q,$v)=>$q->where('feature',$v))->when($request->provider,fn($q,$v)=>$q->where('provider',$v))->when($request->status,fn($q,$v)=>$q->where('status',$v))->when($request->date,fn($q,$v)=>$q->whereDate('created_at',$v))->latest('created_at')->paginate(50)->withQueryString();}return view('platform.ai-usage.index',['aiUsageTableExists'=>$exists,'usageLogs'=>$logs,'workspaces'=>Schema::hasTable('workspaces')?Workspace::query()->orderBy('name')->get(['id','name']):collect()]);}}

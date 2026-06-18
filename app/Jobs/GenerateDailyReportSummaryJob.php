@@ -1,0 +1,3 @@
+<?php
+namespace App\Jobs;use App\Models\Workspace;use App\Services\AI\AiService;use Illuminate\Bus\Queueable;use Illuminate\Contracts\Queue\ShouldQueue;use Illuminate\Foundation\Bus\Dispatchable;use Illuminate\Queue\InteractsWithQueue;use Illuminate\Queue\SerializesModels;
+class GenerateDailyReportSummaryJob implements ShouldQueue{use Dispatchable,InteractsWithQueue,Queueable,SerializesModels;public function __construct(public int $workspaceId,public string $date,public ?int $userId=null){}public function handle(AiService $ai):void{$workspace=Workspace::findOrFail($this->workspaceId);$ai->generate($workspace,'daily_report_summary','Generate queued daily report summary.',['date'=>$this->date],['user_id'=>$this->userId]);}}

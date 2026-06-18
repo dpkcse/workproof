@@ -25,6 +25,8 @@ class CompanySettingsController extends Controller
             'timezone' => ['required', 'string', 'max:100'],
             'currency' => ['required', 'string', 'size:3'],
             'logo' => ['nullable', 'file', 'image', 'max:2048'],
+            'ai_enabled' => ['nullable', 'boolean'],
+            'ai_preferred_provider' => ['nullable', 'in:disabled,local,cloud,hybrid'],
         ]);
 
         if ($request->hasFile('logo')) {
@@ -32,6 +34,11 @@ class CompanySettingsController extends Controller
         }
 
         unset($validated['logo']);
+        $flags = $workspace->settings?->feature_flags ?? [];
+        $flags['ai_preferred_provider'] = $validated['ai_preferred_provider'] ?? config('ai.default_provider');
+        unset($validated['ai_preferred_provider']);
+        $validated['ai_enabled'] = (bool) ($validated['ai_enabled'] ?? false);
+        $validated['feature_flags'] = $flags;
         $workspace->settings()->updateOrCreate(['workspace_id' => $workspace->id], $validated);
 
         return back()->with('status', 'Company settings updated.');

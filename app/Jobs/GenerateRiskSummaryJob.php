@@ -1,0 +1,3 @@
+<?php
+namespace App\Jobs;use App\Models\Workspace;use App\Services\AI\AiService;use Illuminate\Bus\Queueable;use Illuminate\Contracts\Queue\ShouldQueue;use Illuminate\Foundation\Bus\Dispatchable;use Illuminate\Queue\InteractsWithQueue;use Illuminate\Queue\SerializesModels;
+class GenerateRiskSummaryJob implements ShouldQueue{use Dispatchable,InteractsWithQueue,Queueable,SerializesModels;public function __construct(public int $workspaceId,public ?int $userId=null){}public function handle(AiService $ai):void{$ai->generate(Workspace::findOrFail($this->workspaceId),'risk_summary','Generate queued risk summary.',[],['user_id'=>$this->userId]);}}
