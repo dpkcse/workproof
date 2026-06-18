@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use App\Models\Concerns\BelongsToWorkspace;use Illuminate\Database\Eloquent\Model;class TaskCategory extends Model{use BelongsToWorkspace;protected $fillable=['workspace_id','name','description','color','proof_required','approval_required','is_active'];protected function casts():array{return['proof_required'=>'boolean','approval_required'=>'boolean','is_active'=>'boolean'];}public function tasks(){return $this->hasMany(Task::class);}}

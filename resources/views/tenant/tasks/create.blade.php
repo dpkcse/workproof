@@ -1,0 +1,1 @@
+<x-layouts.app title="Create Task"><h1 class="text-2xl font-bold">Create task</h1><form class="mt-6 rounded bg-white p-6 shadow" method="post" action="{{ route('tenant.tasks.store') }}">@include('tenant.tasks._form')</form></x-layouts.app>

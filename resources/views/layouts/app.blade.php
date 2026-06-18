@@ -7,11 +7,12 @@
         <div class="text-lg font-bold">NAXAS WorkProof</div>
         <nav class="mt-8 space-y-2 text-sm">
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ route('tenant.dashboard') }}">Dashboard</a>
-            <span class="block rounded px-3 py-2 text-slate-400">Tasks — coming soon</span>
+            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ route('tenant.tasks.index') }}">Tasks</a>
             <span class="block rounded px-3 py-2 text-slate-400">Daily Reports — coming soon</span>
             <span class="block rounded px-3 py-2 text-slate-400">Proof Review — coming soon</span>
             <span class="block rounded px-3 py-2 text-slate-400">Approvals — coming soon</span>
-            <span class="block rounded px-3 py-2 text-slate-400">Projects — coming soon</span>
+            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ route('tenant.projects.index') }}">Projects</a>
+            <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ route('tenant.task-categories.index') }}">Task Categories</a>
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ route('tenant.teams.index') }}">Teams</a>
             <a class="block rounded px-3 py-2 hover:bg-slate-100" href="{{ route('tenant.users.index') }}">Users</a>
             <span class="block rounded px-3 py-2 text-slate-400">Reports — coming soon</span>

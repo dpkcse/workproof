@@ -3,6 +3,12 @@
 use App\Http\Controllers\Tenant\CompanySettingsController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\OnboardingController;
+use App\Http\Controllers\Tenant\TaskController;
+use App\Http\Controllers\Tenant\TaskCommentController;
+use App\Http\Controllers\Tenant\TaskChecklistController;
+use App\Http\Controllers\Tenant\TaskAttachmentController;
+use App\Http\Controllers\Tenant\ProjectController;
+use App\Http\Controllers\Tenant\TaskCategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware([
@@ -23,6 +29,25 @@ Route::middleware([
 
     Route::get('/settings/company', [CompanySettingsController::class, 'edit'])->name('tenant.settings.company');
     Route::post('/settings/company', [CompanySettingsController::class, 'update'])->name('tenant.settings.company.update');
+
+
+    Route::get('/tasks', [TaskController::class, 'index'])->name('tenant.tasks.index');
+    Route::get('/tasks/create', [TaskController::class, 'create'])->name('tenant.tasks.create');
+    Route::post('/tasks', [TaskController::class, 'store'])->name('tenant.tasks.store');
+    Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('tenant.tasks.show');
+    Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tenant.tasks.edit');
+    Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tenant.tasks.update');
+    Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tenant.tasks.destroy');
+    Route::post('/tasks/{task}/comments', [TaskCommentController::class, 'store'])->name('tenant.tasks.comments.store');
+    Route::post('/tasks/{task}/checklists', [TaskChecklistController::class, 'store'])->name('tenant.tasks.checklists.store');
+    Route::patch('/tasks/{task}/checklists/{checklist}', [TaskChecklistController::class, 'update'])->name('tenant.tasks.checklists.update');
+    Route::delete('/tasks/{task}/checklists/{checklist}', [TaskChecklistController::class, 'destroy'])->name('tenant.tasks.checklists.destroy');
+    Route::post('/tasks/{task}/attachments', [TaskAttachmentController::class, 'store'])->name('tenant.tasks.attachments.store');
+    Route::delete('/tasks/{task}/attachments/{attachment}', [TaskAttachmentController::class, 'destroy'])->name('tenant.tasks.attachments.destroy');
+    Route::get('/projects', [ProjectController::class, 'index'])->name('tenant.projects.index');
+    Route::post('/projects', [ProjectController::class, 'store'])->name('tenant.projects.store');
+    Route::get('/task-categories', [TaskCategoryController::class, 'index'])->name('tenant.task-categories.index');
+    Route::post('/task-categories', [TaskCategoryController::class, 'store'])->name('tenant.task-categories.store');
 
     Route::view('/users', 'tenant.placeholder')->name('tenant.users.index')->defaults('title', 'Users');
     Route::view('/teams', 'tenant.placeholder')->name('tenant.teams.index')->defaults('title', 'Teams');
