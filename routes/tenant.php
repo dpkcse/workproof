@@ -18,6 +18,9 @@ use App\Http\Controllers\Tenant\ManagerDashboardController;
 use App\Http\Controllers\Tenant\MissingReportController;
 use App\Http\Controllers\Tenant\AiController;
 use App\Http\Controllers\Tenant\AiSummaryController;
+use App\Http\Controllers\Tenant\BillingController;
+use App\Http\Controllers\Tenant\InvoiceController;
+use App\Http\Controllers\Tenant\SubscriptionController;
 
 
 Route::middleware([
@@ -92,5 +95,11 @@ Route::middleware([
     Route::view('/users', 'tenant.placeholder')->name('tenant.users.index')->defaults('title', 'Users');
     Route::view('/teams', 'tenant.placeholder')->name('tenant.teams.index')->defaults('title', 'Teams');
     Route::view('/departments', 'tenant.placeholder')->name('tenant.departments.index')->defaults('title', 'Departments');
-    Route::view('/billing', 'tenant.placeholder')->name('tenant.billing')->defaults('title', 'Billing');
+    Route::get('/billing', [BillingController::class, 'index'])->name('tenant.billing');
+    Route::get('/billing/plans', [BillingController::class, 'plans'])->name('tenant.billing.plans');
+    Route::post('/billing/change-plan', [SubscriptionController::class, 'changePlan'])->name('tenant.billing.change-plan');
+    Route::get('/billing/invoices', [InvoiceController::class, 'index'])->name('tenant.billing.invoices.index');
+    Route::get('/billing/invoices/{invoice}', [InvoiceController::class, 'show'])->name('tenant.billing.invoices.show');
+    Route::get('/billing/payments', [BillingController::class, 'payments'])->name('tenant.billing.payments.index');
+    Route::post('/billing/manual-payment-request', [BillingController::class, 'manualPaymentRequest'])->name('tenant.billing.manual-payment-request');
 });

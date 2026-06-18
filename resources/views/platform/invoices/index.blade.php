@@ -1,0 +1,1 @@
+<x-layouts.platform title="Invoices"><h1>Invoices</h1>@foreach($invoices as $invoice)<p>{{ $invoice->invoice_number }} {{ $invoice->workspace?->name }} {{ $invoice->status }} {{ $invoice->total }}</p>@endforeach{{ $invoices->links() }}</x-layouts.platform>

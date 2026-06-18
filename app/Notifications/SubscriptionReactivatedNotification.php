@@ -1,0 +1,3 @@
+<?php
+namespace App\Notifications;use Illuminate\Bus\Queueable;use Illuminate\Notifications\Messages\MailMessage;use Illuminate\Notifications\Notification;
+class SubscriptionReactivatedNotification extends Notification{use Queueable;public function __construct(public mixed $subject=null){}public function via(object $notifiable):array{return ['database'];}public function toArray(object $notifiable):array{return ['type'=>class_basename(static::class),'subject_id'=>$this->subject?->id,'message'=>class_basename(static::class)];}public function toMail(object $notifiable):MailMessage{return (new MailMessage)->subject(class_basename(static::class))->line(class_basename(static::class));}}

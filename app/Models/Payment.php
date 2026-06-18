@@ -1,0 +1,3 @@
+<?php
+namespace App\Models;use App\Models\Concerns\BelongsToWorkspace;use Illuminate\Database\Eloquent\Model;
+class Payment extends Model{use BelongsToWorkspace;protected $fillable=['workspace_id','invoice_id','subscription_id','payment_number','gateway','status','currency','amount','transaction_reference','paid_at','verified_by','verification_note','metadata'];protected function casts():array{return ['paid_at'=>'datetime','metadata'=>'array','amount'=>'decimal:2'];}public function invoice(){return $this->belongsTo(Invoice::class);}public function subscription(){return $this->belongsTo(Subscription::class);}public function verifier(){return $this->belongsTo(User::class,'verified_by');}}

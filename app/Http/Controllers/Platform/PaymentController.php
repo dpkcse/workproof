@@ -1,19 +1,3 @@
 <?php
-
-namespace App\Http\Controllers\Platform;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\View\View;
-
-class PaymentController extends Controller
-{
-    public function __invoke(): View
-    {
-        return view('platform.payments.index', [
-            'paymentsTableExists' => Schema::hasTable('payments'),
-            'payments' => Schema::hasTable('payments') ? DB::table('payments')->latest()->limit(50)->get() : collect(),
-        ]);
-    }
-}
+namespace App\Http\Controllers\Platform;use App\Http\Controllers\Controller;use App\Models\{Invoice,Payment};use App\Services\Billing\BillingService;use Illuminate\Http\Request;
+class PaymentController extends Controller{public function __invoke(){return $this->index();}public function index(){return view('platform.payments.index',['payments'=>Payment::with('workspace','invoice')->latest()->paginate(30)]);}public function markInvoicePaid(Request $r,Invoice $invoice,BillingService $billing){$payment=Payment::create(['workspace_id'=>$invoice->workspace_id,'invoice_id'=>$invoice->id,'subscription_id'=>$invoice->subscription_id,'payment_number'=>$billing->generatePaymentNumber(),'gateway'=>'manual','status'=>'successful','currency'=>$invoice->currency,'amount'=>$invoice->amount_due,'paid_at'=>now(),'verified_by'=>$r->user()->id,'verification_note'=>'Platform manual mark paid']);$billing->markInvoicePaid($invoice,$payment);return back()->with('status','Invoice marked paid.');}public function markSuccessful(Request $r,Payment $payment,BillingService $billing){$d=$r->validate(['verification_note'=>'nullable|string']);$payment->update(['status'=>'successful','paid_at'=>now(),'verified_by'=>$r->user()->id,'verification_note'=>$d['verification_note']??$payment->verification_note]);if($payment->invoice)$billing->markInvoicePaid($payment->invoice,$payment);return back()->with('status','Payment marked successful.');}}

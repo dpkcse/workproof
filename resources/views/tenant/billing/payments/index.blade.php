@@ -1,0 +1,1 @@
+<x-layouts.app title="Payments"><h1>Payments</h1>@foreach($payments as $payment)<p>{{ $payment->payment_number }} {{ $payment->status }} {{ $payment->amount }}</p>@endforeach{{ $payments->links() }}</x-layouts.app>

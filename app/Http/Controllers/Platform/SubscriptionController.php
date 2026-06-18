@@ -1,24 +1,3 @@
 <?php
-
-namespace App\Http\Controllers\Platform;
-
-use App\Http\Controllers\Controller;
-use App\Models\Subscription;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
-
-class SubscriptionController extends Controller
-{
-    public function __invoke(Request $request): View
-    {
-        $subscriptions = Subscription::query()
-            ->withoutWorkspaceScope()
-            ->with(['workspace', 'plan'])
-            ->when($request->filled('status'), fn ($query) => $query->where('status', $request->string('status')->toString()))
-            ->latest()
-            ->paginate(20)
-            ->withQueryString();
-
-        return view('platform.subscriptions.index', ['subscriptions' => $subscriptions]);
-    }
-}
+namespace App\Http\Controllers\Platform;use App\Http\Controllers\Controller;use App\Models\Subscription;use Illuminate\Http\Request;
+class SubscriptionController extends Controller{public function __invoke(){return $this->index();}public function index(){return view('platform.subscriptions.index',['subscriptions'=>Subscription::with('workspace','plan')->latest()->paginate(30)]);}public function changeStatus(Request $r,Subscription $subscription){$d=$r->validate(['status'=>'required|string']);$subscription->update(['status'=>$d['status']]);return back()->with('status','Subscription status changed.');}}
